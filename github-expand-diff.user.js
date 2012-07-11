@@ -52,6 +52,7 @@
                 codeGap.open = false;
             } else {
                 codeGap.oldLine = codeNode.innerHTML;
+                codeNode.innerHTML = '<span style="font-size: 1.6em">&#8987;</span> Loading...';
                 getCode(codeGap, function (code) {
                     codeNode.innerHTML = codeGap.newLine = code;
                 });

@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name Github Expand Diff
+// @description A user/Greasemonkey script for Chrome and Firefox that allows you to expand the missing lines in a Github diff.
 // @match https://github.com/*/commit/*
 // @match https://github.com/*/pull/*
 // @version 1.0

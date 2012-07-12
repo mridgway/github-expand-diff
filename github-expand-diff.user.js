@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name Github-Diff-Expander
+// @name Github Diff Expander
 // @match https://github.com/*/commit/*
 // @match https://github.com/*/pull/*
 // @version 1.0

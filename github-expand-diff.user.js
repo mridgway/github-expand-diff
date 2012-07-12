@@ -48,12 +48,15 @@
                     fileLine = parseInt(lineNumber, 10);
                 }
             }
-            files[i].getElementsByTagName('tbody')[0].appendChild(lastLineNode);
-            codeGaps.push({
-                lineNode: lastLineNode,
-                startLine: fileLine + 1,
-                fileUrl: fileUrl
-            });
+            var tbodies = files[i].getElementsByTagName('tbody');
+            if (tbodies && tbodies.length) {
+                tbodies[0].appendChild(lastLineNode);
+                codeGaps.push({
+                    lineNode: lastLineNode,
+                    startLine: fileLine + 1,
+                    fileUrl: fileUrl
+                });
+            }
         }
         return codeGaps;
     }

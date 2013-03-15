@@ -165,7 +165,7 @@
         for (var i=codeGap.startLine; i<=codeGap.endLine; ++i) {
             var lineNode = document.getElementById('LC' + i),
                 line = lineNode ? lineNode.innerHTML : '';
-            code += ' ' + line + '\n';
+            code += '<div class="line">' + line + '</div>\n';
         }
         document.body.removeChild(domParseNode);
         parseNode.innerHTML = '';

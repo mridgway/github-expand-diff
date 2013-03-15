@@ -109,6 +109,13 @@
         if (lineNumbers && lineNumbers.length > 1) {
             return lineNumbers[1].firstChild.nodeValue;
         }
+
+        // Fallback to old method DOM structure for Enterprise installations
+        lineNumbers = lineNode.getElementsByClassName('line_numbers');
+        if (lineNumbers && lineNumbers.length > 1) {
+          return lineNumbers[1].firstChild.nodeValue.replace(/^\s+|\s+$/g, '');
+        }
+
         return null;
     }
 

@@ -1,5 +1,5 @@
 {
   "name": "Github Expand Diff",
   "description": "A user script for Chrome that allows you to expand the missing lines in a Github diff.",
-  "version": "0.0.1.1"
+  "version": "0.0.1.2"
 }

@@ -105,9 +105,9 @@
             return null;
         }
 
-        lineNumbers = lineNode.getElementsByClassName('line_numbers');
+        lineNumbers = lineNode.getElementsByClassName('line-number-content');
         if (lineNumbers && lineNumbers.length > 1) {
-            return lineNumbers[1].firstChild.nodeValue.replace(/^\s+|\s+$/g, '');
+            return lineNumbers[1].firstChild.nodeValue;
         }
         return null;
     }

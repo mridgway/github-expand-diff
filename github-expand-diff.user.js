@@ -12,8 +12,6 @@
         parseNode = createParseNode(),
         LOADING_HTML = '<span style="font-size: 1.6em">&#8987;</span> Loading...';
 
-    console.log(codeGaps);
-
     for (var i=0; i<codeGaps.length; ++i) {
         bindClick(codeGaps[i]);
     }

@@ -12,6 +12,8 @@
         parseNode = createParseNode(),
         LOADING_HTML = '<span style="font-size: 1.6em">&#8987;</span> Loading...';
 
+    console.log(codeGaps);
+
     for (var i=0; i<codeGaps.length; ++i) {
         bindClick(codeGaps[i]);
     }
@@ -94,7 +96,8 @@
 
     function createLastLineNode () {
         var lastLineNode = document.createElement('tr');
-        lastLineNode.innerHTML = '<td class="line_numbers">...</td><td class="line_numbers">...</td><td class="gc diff-line"><pre class="line"></pre></td>';
+        lastLineNode.setAttribute('class', 'file-diff-line gc');
+        lastLineNode.innerHTML = '<td class="diff-line-num" data-line-number="..."><span class="line-num-content">...</span></td><td class="diff-line-num" data-line-number="..."><span class="line-num-content">...</span></td><td class="diff-line-code"></td>';
         return lastLineNode;
     }
 
@@ -105,15 +108,14 @@
             return null;
         }
 
-        lineNumbers = lineNode.getElementsByClassName('line-number-content');
-        if (lineNumbers && lineNumbers.length > 1) {
-            return lineNumbers[1].firstChild.nodeValue;
-        }
-
-        // Fallback to old method DOM structure for Enterprise installations
-        lineNumbers = lineNode.getElementsByClassName('line_numbers');
-        if (lineNumbers && lineNumbers.length > 1) {
-          return lineNumbers[1].firstChild.nodeValue.replace(/^\s+|\s+$/g, '');
+        lineNumbers = lineNode.getElementsByTagName('td');
+        if (lineNumbers && lineNumbers.length === 3) {
+            if (lineNumbers[1].children[0]) {
+                return lineNumbers[1].children[0].firstChild.nodeValue.replace(/^\s+|\s+$/g, '');
+            } else {
+                // Legacy
+                return lineNumbers[1].firstChild.nodeValue.replace(/^\s+|\s+$/g, '')
+            }
         }
 
         return null;
@@ -122,7 +124,11 @@
     function bindClick (codeGap) {
         codeGap.lineNode.onclick = function (e) {
             var code,
+                codeNode = codeGap.lineNode.getElementsByClassName('diff-line-code')[0];
+            if (!codeNode) {
+                // Legacy
                 codeNode = codeGap.lineNode.getElementsByClassName('line')[0];
+            }
             e.preventDefault();
             e.stopPropagation();
 

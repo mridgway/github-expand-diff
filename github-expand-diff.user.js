@@ -176,7 +176,7 @@
         for (var i=codeGap.startLine; i<=codeGap.endLine; ++i) {
             var lineNode = document.getElementById('LC' + i),
                 line = lineNode ? lineNode.innerHTML : '';
-            code += '<div class="line">' + line + '</div>\n';
+            code += '<div class="diff-line-code"><pre>' + line + '</pre></div>\n';
         }
         document.body.removeChild(domParseNode);
         parseNode.innerHTML = '';

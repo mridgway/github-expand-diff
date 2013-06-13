@@ -8,15 +8,20 @@
 // ==/UserScript==
 
 (function () {
-    var codeGaps = findCodeGaps(),
-        fileDoms = {},
-        parseNode = createParseNode(),
+    var codeGaps = findCodeGaps(), // Array of missing code meta objects
+        fileDoms = {}, // Cache of fetched full files
+        parseNode = createParseNode(), // Hidden DOM element used for parsing fetched file DOM
         LOADING_HTML = '<span style="font-size: 1.6em">&#8987;</span> Loading...';
 
+    // Every code gap gets a click listener
     for (var i=0; i<codeGaps.length; ++i) {
         bindClick(codeGaps[i]);
     }
 
+    /**
+     * Creates a hidden DOM node for parsing the file view HTML
+     * @returns {HTMLElement}
+     */
     function createParseNode () {
         var parseNode = document.createElement('span');
         parseNode.style.display = 'none';
@@ -24,6 +29,10 @@
         return parseNode;
     }
 
+    /**
+     * Finds the missing lines of code and returns an array of code gap meta objects
+     * @returns {Array}
+     */
     function findCodeGaps () {
         var codeGaps = [],
             files = getFileNodes();
@@ -62,6 +71,10 @@
         return codeGaps;
     }
 
+    /**
+     * Returns an array of file nodes on the page
+     * @returns {Array}
+     */
     function getFileNodes () {
         var fileNodes = [],
             filesNode = document.getElementById('files');
@@ -71,11 +84,21 @@
         return fileNodes;
     }
 
+    /**
+     * Given a file node, returns all of the file's line nodes
+     * @param fileNode
+     * @returns {NodeList}
+     */
     function getLineNodes (fileNode) {
         var lines = fileNode.getElementsByTagName('tr');
         return lines;
     }
 
+    /**
+     * Returns the url of the "View file" button link
+     * @param fileNode
+     * @returns {*}
+     */
     function getFileUrl (fileNode) {
         var metaNodes = fileNode.getElementsByClassName('meta'),
             miniButtonNodes;
@@ -93,6 +116,11 @@
         return miniButtonNodes[0].href;
     }
 
+    /**
+     * Injects a code gap after the final line of code in the diff view so that we can
+     * expand the last lines of the file
+     * @returns {HTMLElement}
+     */
     function createLastLineNode () {
         var lastLineNode = document.createElement('tr');
         lastLineNode.setAttribute('class', 'file-diff-line gc');
@@ -100,6 +128,11 @@
         return lastLineNode;
     }
 
+    /**
+     * Given a line node, returns the line number
+     * @param lineNode
+     * @returns {*}
+     */
     function getLineNumber (lineNode) {
         var lineNumbers;
 
@@ -120,6 +153,10 @@
         return null;
     }
 
+    /**
+     * Binds a click event to a code gap to expand the missing lines
+     * @param codeGap
+     */
     function bindClick (codeGap) {
         codeGap.lineNode.onclick = function (e) {
             var code,
@@ -145,6 +182,11 @@
         };
     }
 
+    /**
+     * Fetches and parses the full file contents and returns the missing lines of code
+     * @param codeGap
+     * @param cb
+     */
     function getCode (codeGap, cb) {
         if (!fileDoms[codeGap.fileUrl]) {
             var xhr = new XMLHttpRequest();
@@ -162,6 +204,13 @@
         }
     }
 
+    /**
+     * Given a code gap and a DOM node of the full file contents, returns the missing lines
+     * of code
+     * @param codeGap
+     * @param dom
+     * @returns {string}
+     */
     function parseDom (codeGap, dom) {
         var code = '',
             domParseNode;
@@ -182,9 +231,5 @@
         document.body.removeChild(domParseNode);
         parseNode.innerHTML = '';
         return code;
-    }
-
-    function logTime () {
-        console.log((new Date()).getTime());
     }
 })();

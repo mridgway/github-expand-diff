@@ -4,7 +4,7 @@
 // @match https://github.com/*/commit/*
 // @match https://github.com/*/pull/*
 // @match https://github.com/*/compare/*
-// @version 1.4
+// @version 1.5
 // ==/UserScript==
 
 (function () {

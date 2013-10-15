@@ -1,6 +1,6 @@
 {
     "name": "Github Expand Diff",
-    "version": "0.0.1.4",
+    "version": "0.0.1.5",
     "description": "A user script for Chrome that allows you to expand the missing lines in a Github diff.",
     "manifest_version": 2,
     "content_scripts": [{

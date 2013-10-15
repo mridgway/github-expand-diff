@@ -113,7 +113,11 @@
             return null;
         }
 
-        return miniButtonNodes[0].href;
+        /**
+         * Find the last minibutton, so that extra buttons added to the start (such as
+         * the "Open in GitHub for Mac" button) are not fetched by accident instead.
+         */
+        return miniButtonNodes[miniButtonNodes.length - 1].href;
     }
 
     /**

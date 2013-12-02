@@ -1,3 +1,5 @@
+#### The features of this plugin have been added to Github natively (https://github.com/blog/1705-expanding-context-in-diffs). This project is no longer updated, although it should continue to work for legacy versions of Github enterprise.
+
 # Github Expand Diff
 
 A user/Greasemonkey script for Chrome and Firefox that allows you to expand the missing lines in a Github diff.

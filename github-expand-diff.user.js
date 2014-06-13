@@ -164,7 +164,9 @@
     function bindClick (codeGap) {
         codeGap.lineNode.onclick = function (e) {
             var code,
-                codeNode = codeGap.lineNode.getElementsByClassName('diff-line-code')[0];
+                codeNode = codeGap.lineNode.getElementsByClassName('diff-line-code')[0],
+                oldNums = codeGap.lineNode.getElementsByClassName('line-num-content')[0],
+                newNums = codeGap.lineNode.getElementsByClassName('line-num-content')[1];
             if (!codeNode) {
                 // Legacy
                 codeNode = codeGap.lineNode.getElementsByClassName('line')[0];
@@ -174,12 +176,16 @@
 
             if (codeGap.open) {
                 codeNode.innerHTML = codeGap.oldLine;
+                oldNums.innerHTML = '...';
+                newNums.innerHTML = '...';
                 codeGap.open = false;
             } else {
                 codeGap.oldLine = codeNode.innerHTML;
                 codeNode.innerHTML = LOADING_HTML;
                 getCode(codeGap, function (code) {
-                    codeNode.innerHTML = codeGap.newLine = code;
+                    codeNode.innerHTML = code[0];
+                    oldNums.innerHTML = code[1];
+                    newNums.innerHTML = code[2];
                 });
                 codeGap.open = true;
             }
@@ -217,6 +223,8 @@
      */
     function parseDom (codeGap, dom) {
         var code = '',
+            oldNums = '...',
+            newNums = '',
             domParseNode;
 
         parseNode.innerHTML = dom;
@@ -230,10 +238,11 @@
         for (var i=codeGap.startLine; i<=codeGap.endLine; ++i) {
             var lineNode = document.getElementById('LC' + i),
                 line = lineNode ? lineNode.innerHTML : '';
-            code += '<div class="diff-line-code"><pre>' + line + '</pre></div>\n';
+            code += '<div class="diff-line-code"><pre style="font-size:1em">' + line + '</pre></div>\n';
+            newNums += '<div style="font-size:1em">'+i+'</div>';
         }
         document.body.removeChild(domParseNode);
         parseNode.innerHTML = '';
-        return code;
+        return [code, oldNums, newNums];
     }
 })();
